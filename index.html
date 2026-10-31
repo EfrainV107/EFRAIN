@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿﻿?<!DOCTYPE html>
 <html lang="es">
 
 <head>
@@ -103,6 +103,9 @@
       padding: 22px 15px;
       text-align: center;
       transition: all 0.25s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
 
     .card:hover {
@@ -120,9 +123,225 @@
       margin: 10px 0 5px;
     }
 
-    .card p {
-      color: #e07b39;
+    .card .tipo {
+      color: #6b7a5a;
+      font-size: 0.85em;
+      margin-top: 4px;
+    }
+
+    .card .agregar {
+      margin-top: 12px;
+      padding: 8px 14px;
+      border: none;
+      border-radius: 20px;
+      background: #2e8b57;
+      color: #fff;
       font-weight: bold;
+      cursor: pointer;
+      font-size: 0.95em;
+      transition: all 0.2s ease;
+    }
+
+    .card .agregar:hover {
+      background: #e07b39;
+    }
+
+    /* ---- Caja de cantidad (kg o piezas) ---- */
+    .cantidad {
+      display: none;
+      margin-top: 12px;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .cantidad.visible {
+      display: flex;
+    }
+
+    .cantidad button.btn-cant {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 2px solid #2e8b57;
+      background: #fff;
+      color: #2e8b57;
+      font-weight: bold;
+      font-size: 1.1em;
+      cursor: pointer;
+      padding: 0;
+      margin: 0;
+    }
+
+    .cantidad button.btn-cant:hover {
+      background: #2e8b57;
+      color: #fff;
+    }
+
+    .cantidad input {
+      width: 68px;
+      padding: 6px;
+      text-align: center;
+      border: 2px solid #e5e0cf;
+      border-radius: 8px;
+      font-size: 1em;
+      font-weight: bold;
+      color: #3d4a35;
+    }
+
+    .cantidad .unidad {
+      color: #6b7a5a;
+      font-weight: bold;
+    }
+
+    /* ---- Botón cesta flotante ---- */
+    #btn-cesta {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      background: #e07b39;
+      color: #fff;
+      border: none;
+      border-radius: 50px;
+      padding: 15px 25px;
+      font-size: 1.15em;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+      z-index: 100;
+      transition: transform 0.2s ease;
+    }
+
+    #btn-cesta:hover {
+      transform: scale(1.06);
+    }
+
+    #btn-cesta .badge {
+      background: #2e8b57;
+      border-radius: 20px;
+      padding: 2px 10px;
+      margin-left: 8px;
+      font-size: 0.9em;
+    }
+
+    /* ---- Panel de la cesta ---- */
+    #panel-cesta {
+      position: fixed;
+      top: 0;
+      right: -420px;
+      width: 380px;
+      max-width: 100vw;
+      height: 100vh;
+      background: #fff;
+      box-shadow: -4px 0 20px rgba(0, 0, 0, 0.2);
+      z-index: 200;
+      transition: right 0.3s ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    #panel-cesta.abierto {
+      right: 0;
+    }
+
+    #panel-cesta .cabecera {
+      background: #2e8b57;
+      color: #fff;
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    #panel-cesta .cabecera h2 {
+      font-size: 1.4em;
+    }
+
+    #panel-cesta .cerrar {
+      background: transparent;
+      border: none;
+      color: #fff;
+      font-size: 1.6em;
+      cursor: pointer;
+    }
+
+    #items-cesta {
+      flex: 1;
+      overflow-y: auto;
+      padding: 15px;
+    }
+
+    .item-cesta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px dashed #e5e0cf;
+      padding: 12px 0;
+    }
+
+    .item-cesta .info {
+      flex: 1;
+    }
+
+    .item-cesta .nombre {
+      font-weight: bold;
+      color: #3d4a35;
+    }
+
+    .item-cesta .detalle {
+      color: #e07b39;
+      font-size: 0.9em;
+    }
+
+    .item-cesta button.quitar {
+      background: #e07b39;
+      border: none;
+      color: #fff;
+      border-radius: 50%;
+      width: 26px;
+      height: 26px;
+      cursor: pointer;
+      font-weight: bold;
+      flex-shrink: 0;
+    }
+
+    .vacio {
+      text-align: center;
+      color: #6b7a5a;
+      padding: 40px 10px;
+      font-size: 1.05em;
+    }
+
+    #panel-cesta .pie {
+      background: #fdfbf4;
+      padding: 15px 20px;
+      border-top: 2px solid #e5e0cf;
+    }
+
+    #panel-cesta .total-linea {
+      display: flex;
+      justify-content: space-between;
+      font-weight: bold;
+      font-size: 1.2em;
+      color: #2e8b57;
+      margin-bottom: 10px;
+    }
+
+    #panel-cesta .btn-enviar {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 30px;
+      background: #25d366;
+      color: #fff;
+      font-size: 1.05em;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    #panel-cesta .btn-enviar:hover {
+      background: #1da851;
     }
 
     footer {
@@ -148,84 +367,157 @@
     <button onclick="verCategoria('chiles', this)">🌶️ Chiles Secos</button>
     <button onclick="verCategoria('cremeria', this)">🧀 Cremería</button>
     <button onclick="verCategoria('dulces', this)">🍬 Dulces</button>
+    <button onclick="verCategoria('semillas_cereales', this)">🌻 Semillas y Cereales</button>
+    <button onclick="verCategoria('bebidas', this)">🥤 Bebidas</button>
+    <button onclick="verCategoria('unicel', this)">🍽️ Unicel</button>
   </nav>
 
   <h2 id="titulo-categoria"></h2>
   <section id="productos"></section>
+
+  <button id="btn-cesta" onclick="abrirCesta()">🛒 Mi cesta <span class="badge" id="badge-cesta">0</span></button>
+
+  <div id="panel-cesta">
+    <div class="cabecera">
+      <h2>🛒 Tu cesta</h2>
+      <button class="cerrar" onclick="cerrarCesta()">✖</button>
+    </div>
+    <div id="items-cesta"></div>
+    <div class="pie">
+            <button class="btn-enviar" onclick="enviarPedido()">📲 Enviar pedido por WhatsApp</button>
+    </div>
+  </div>
 
   <footer>
     <p>"EL JONI" · Recaudería © 2026 — ¡Gracias por su preferencia-DIOS TE BENDIGA!</p>
   </footer>
 
   <script>
+    // unidad: "kg"  -> se pide en kilogramos (subdivisiones de 0.5 kg)
+    // unidad: "pza" -> se agrega por pieza
     const catalogo = {
       frutas: [
-        { nombre: "Manzana roja", precio: "$38.00/kg", emoji: "🍎" },
-        { nombre: "Plátano", precio: "$22.00/kg", emoji: "🍌" },
-        { nombre: "Naranja", precio: "$25.00/kg", emoji: "🍊" },
-        { nombre: "Sandía", precio: "$18.00/kg", emoji: "🍉" },
-        { nombre: "Limón", precio: "$40.00/kg", emoji: "🍋" },
-        { nombre: "Uva", precio: "$55.00/kg", emoji: "🍇" },
-        { nombre: "Fresa", precio: "$45.00/caja", emoji: "🍓" },
-        { nombre: "Mango", precio: "$35.00/kg", emoji: "🥭" },
-        { nombre: "Pera", precio: "$42.00/kg", emoji: "🍐" },
-        { nombre: "Piña", precio: "$30.00/pieza", emoji: "🍍" }
+        { nombre: "Manzana roja", unidad: "kg", emoji: "🍎" },
+        { nombre: "Plátano", unidad: "kg", emoji: "🍌" },
+        { nombre: "Naranja", unidad: "kg", emoji: "🍊" },
+        { nombre: "Sandía", unidad: "kg", emoji: "🍉" },
+        { nombre: "Limón", unidad: "kg", emoji: "🍋" },
+        { nombre: "Uva", unidad: "kg", emoji: "🍇" },
+        { nombre: "Fresa", unidad: "pza", emoji: "🍓" },
+        { nombre: "Mango", unidad: "kg", emoji: "🥭" },
+        { nombre: "Pera", unidad: "kg", emoji: "🍐" },
+        { nombre: "Piña", unidad: "pza", emoji: "🍍" },
+        { nombre: "Kiwi", unidad: "pza", emoji: "🥝" }
       ],
       verduras: [
-        { nombre: "Tomate verde", precio: "$28.00/kg", emoji: "🍅" },
-        { nombre: "Cebolla", precio: "$24.00/kg", emoji: "🧅" },
-        { nombre: "Lechuga", precio: "$15.00/pieza", emoji: "🥬" },
-        { nombre: "Zanahoria", precio: "$18.00/kg", emoji: "🥕" },
-        { nombre: "Papa", precio: "$30.00/kg", emoji: "🥔" },
-        { nombre: "Brocoli", precio: "$35.00/kg", emoji: "🥦" },
-        { nombre: "Chile serrano", precio: "$45.00/kg", emoji: "🌶️" },
-        { nombre: "Aguacate", precio: "$70.00/kg", emoji: "🥑" },
-        { nombre: "Pepino", precio: "$20.00/kg", emoji: "🥒" },
-        { nombre: "Elote", precio: "$8.00/pieza", emoji: "🌽" }
+        { nombre: "Tomate verde", unidad: "kg", emoji: "🍅" },
+        { nombre: "Cebolla", unidad: "kg", emoji: "🧅" },
+        { nombre: "Lechuga", unidad: "pza", emoji: "🥬" },
+        { nombre: "Zanahoria", unidad: "kg", emoji: "🥕" },
+        { nombre: "Papa", unidad: "kg", emoji: "🥔" },
+        { nombre: "Brocoli", unidad: "kg", emoji: "🥦" },
+        { nombre: "Chile serrano", unidad: "kg", emoji: "🌶️" },
+        { nombre: "Aguacate", unidad: "kg", emoji: "🥑" },
+        { nombre: "Pepino", unidad: "kg", emoji: "🥒" },
+        { nombre: "Elote", unidad: "pza", emoji: "🌽" }
       ],
       abarrotes: [
-        { nombre: "Arroz", precio: "$32.00/kg", emoji: "🍚" },
-        { nombre: "Frijol", precio: "$38.00/kg", emoji: "🫘" },
-        { nombre: "Aceite", precio: "$48.00/L", emoji: "🫗" },
-        { nombre: "Azúcar", precio: "$26.00/kg", emoji: "🧂" },
-        { nombre: "Sal", precio: "$12.00/kg", emoji: "🧂" },
-        { nombre: "Harina de maíz", precio: "$22.00/kg", emoji: "🌾" },
-        { nombre: "Atún en lata", precio: "$18.00/pza", emoji: "🐟" },
-        { nombre: "Pasta para sopa", precio: "$14.00/bolsa", emoji: "🍜" },
-        { nombre: "Café", precio: "$65.00/pza", emoji: "☕" },
-        { nombre: "Lenteja", precio: "$34.00/kg", emoji: "🫘" }
+        { nombre: "Arroz", unidad: "kg", emoji: "🍚" },
+        { nombre: "Frijol", unidad: "kg", emoji: "🫘" },
+        { nombre: "Aceite", unidad: "pza", emoji: "🫗" },
+        { nombre: "Azúcar", unidad: "kg", emoji: "🧂" },
+        { nombre: "Sal", unidad: "kg", emoji: "🧂" },
+        { nombre: "Harina de maíz", unidad: "kg", emoji: "🌾" },
+        { nombre: "Atún en lata", unidad: "pza", emoji: "🐟" },
+        { nombre: "Pasta para sopa", unidad: "pza", emoji: "🍜" },
+        { nombre: "Café", unidad: "pza", emoji: "☕" },
+        { nombre: "Lenteja", unidad: "kg", emoji: "🫘" }
       ],
       chiles: [
-        { nombre: "Chile ancho", precio: "$90.00/kg", emoji: "🌶️" },
-        { nombre: "Chile guajillo", precio: "$85.00/kg", emoji: "🌶️" },
-        { nombre: "Chile pasilla", precio: "$110.00/kg", emoji: "🌶️" },
-        { nombre: "Chile de árbol", precio: "$120.00/kg", emoji: "🌶️" },
-        { nombre: "Chile piquín", precio: "$180.00/kg", emoji: "🌶️" },
-        { nombre: "Chile chipotle seco", precio: "$140.00/kg", emoji: "🌶️" },
-        { nombre: "Chile mulato", precio: "$95.00/kg", emoji: "🌶️" },
-        { nombre: "Chile cascabel", precio: "$105.00/kg", emoji: "🌶️" }
+        { nombre: "Chile ancho", unidad: "kg", emoji: "🌶️" },
+        { nombre: "Chile guajillo", unidad: "kg", emoji: "🌶️" },
+        { nombre: "Chile pasilla", unidad: "kg", emoji: "🌶️" },
+        { nombre: "Chile de árbol", unidad: "kg", emoji: "🌶️" },
+        { nombre: "Chile piquín", unidad: "kg", emoji: "🌶️" },
+        { nombre: "Chile chipotle seco", unidad: "kg", emoji: "🌶️" },
+        { nombre: "Chile mulato", unidad: "kg", emoji: "🌶️" },
+        { nombre: "Chile cascabel", unidad: "kg", emoji: "🌶️" }
       ],
       cremeria: [
-        { nombre: "Queso Oaxaca", precio: "$120.00/kg", emoji: "🧀" },
-        { nombre: "Queso panela", precio: "$95.00/kg", emoji: "🧀" },
-        { nombre: "Queso fresco", precio: "$105.00/kg", emoji: "🧀" },
-        { nombre: "Crema ácida", precio: "$45.00/500ml", emoji: "🥛" },
-        { nombre: "Queso manchego", precio: "$130.00/kg", emoji: "🧀" },
-        { nombre: "Requesón", precio: "$80.00/kg", emoji: "🧀" },
-        { nombre: "Queso cotija", precio: "$150.00/kg", emoji: "🧀" },
-        { nombre: "Mantequilla", precio: "$60.00/pza", emoji: "🧈" }
+        { nombre: "Queso Oaxaca", unidad: "kg", emoji: "🧀" },
+        { nombre: "Queso panela", unidad: "kg", emoji: "🧀" },
+        { nombre: "Queso fresco", unidad: "kg", emoji: "🧀" },
+        { nombre: "Crema ácida", unidad: "pza", emoji: "🥛" },
+        { nombre: "Queso manchego", unidad: "kg", emoji: "🧀" },
+        { nombre: "Requesón", unidad: "kg", emoji: "🧀" },
+        { nombre: "Queso cotija", unidad: "kg", emoji: "🧀" },
+        { nombre: "Mantequilla", unidad: "pza", emoji: "🧈" }
       ],
       dulces: [
-        { nombre: "Gomitas", precio: "$15.00/100g", emoji: "🍬" },
-        { nombre: "Paletas", precio: "$8.00/pza", emoji: "🍭" },
-        { nombre: "Chocolate", precio: "$25.00/pza", emoji: "🍫" },
-        { nombre: "Cacahuate garapiñado", precio: "$30.00/100g", emoji: "🥜" },
-        { nombre: "Chicles", precio: "$12.00/bolsa", emoji: "🫧" },
-        { nombre: "Mazapán", precio: "$10.00/pza", emoji: "🥮" },
-        { nombre: "Tamarindo", precio: "$20.00/100g", emoji: "🍯" },
-        { nombre: "Glorias", precio: "$12.00/pza", emoji: "🍬" }
+        { nombre: "Gomitas", unidad: "pza", emoji: "🍬" },
+        { nombre: "Paletas", unidad: "pza", emoji: "🍭" },
+        { nombre: "Chocolate", unidad: "pza", emoji: "🍫" },
+        { nombre: "Cacahuate garapiñado", unidad: "pza", emoji: "🥜" },
+        { nombre: "Chicles", unidad: "pza", emoji: "🫧" },
+        { nombre: "Mazapán", unidad: "pza", emoji: "🥮" },
+        { nombre: "Tamarindo", unidad: "pza", emoji: "🍯" },
+        { nombre: "Glorias", unidad: "pza", emoji: "🍬" }
+      ],
+      semillas_cereales: [
+        { nombre: "Semillas de calabaza", unidad: "kg", emoji: "🎃" },
+        { nombre: "Semillas de girasol", unidad: "kg", emoji: "🌻" },
+        { nombre: "Amaranto", unidad: "kg", emoji: "🌾" },
+        { nombre: "Avena", unidad: "kg", emoji: "🌾" },
+        { nombre: "Cereal de caja", unidad: "pza", emoji: "🥣" },
+        { nombre: "Granola", unidad: "kg", emoji: "🥣" },
+        { nombre: "Linaza", unidad: "kg", emoji: "🌾" },
+        { nombre: "Chía", unidad: "kg", emoji: "🌾" },
+        { nombre: "Cacahuate natural", unidad: "kg", emoji: "🥜" },
+        { nombre: "Nuez", unidad: "kg", emoji: "🌰" }
+      ],
+      bebidas: [
+        { nombre: "Refresco", unidad: "pza", emoji: "🥤" },
+        { nombre: "Agua embotellada", unidad: "pza", emoji: "💧" },
+        { nombre: "Jugo en polvo", unidad: "pza", emoji: "🧃" },
+        { nombre: "Leche en polvo", unidad: "pza", emoji: "🥛" },
+        { nombre: "Leche evaporada", unidad: "pza", emoji: "🥛" },
+        { nombre: "Leche condensada", unidad: "pza", emoji: "🥛" },
+        { nombre: "Atole en polvo", unidad: "pza", emoji: "🥣" },
+        { nombre: "Chocolate en polvo", unidad: "pza", emoji: "🥛" },
+        { nombre: "Té helado", unidad: "pza", emoji: "🍵" },
+        { nombre: "Agua de sabor en polvo", unidad: "pza", emoji: "🧃" }
+      ],
+      unicel: [
+        { nombre: "Plato de unicel chico", unidad: "pza", emoji: "🍽️" },
+        { nombre: "Plato de unicel grande", unidad: "pza", emoji: "🍽️" },
+        { nombre: "Vaso de unicel chico", unidad: "pza", emoji: "🥤" },
+        { nombre: "Vaso de unicel grande", unidad: "pza", emoji: "🥤" },
+        { nombre: "Cuchara de plástico", unidad: "pza", emoji: "🥄" },
+        { nombre: "Tenedor de plástico", unidad: "pza", emoji: "🍴" },
+        { nombre: "Cuchillo de plástico", unidad: "pza", emoji: "🔪" },
+        { nombre: "Servilletas", unidad: "pza", emoji: "🧻" },
+        { nombre: "Bolsa de plástico", unidad: "pza", emoji: "🛍️" },
+        { nombre: "Charola de unicel", unidad: "pza", emoji: "🪣" }
       ]
     };
+
+    const nombresCategorias = {
+      frutas: "Frutas 🍎", verduras: "Verduras 🥦", abarrotes: "Abarrotes 🍚",
+      chiles: "Chiles Secos 🌶️", cremeria: "Cremería 🧀", dulces: "Dulces 🍬",
+      semillas_cereales: "Semillas y Cereales 🌻", bebidas: "Bebidas 🥤",
+      unicel: "Unicel y Desechables 🍽️"
+    };
+
+    // Cesta: { "nombre|unidad": { nombre, emoji, unidad, cantidad } }
+    let cesta = {};
+
+    function esKilogramo(producto) {
+      return producto.unidad === 'kg';
+    }
+
+    function idProducto(categoria, nombre) {
+      return categoria + '-' + btoa(unescape(encodeURIComponent(nombre))).replace(/[^a-zA-Z0-9]/g, '');
+    }
 
     function verCategoria(nombre, boton) {
       document.querySelectorAll('nav button').forEach(b => b.classList.remove('activo'));
@@ -233,21 +525,155 @@
 
       const titulo = document.getElementById('titulo-categoria');
       const contenedor = document.getElementById('productos');
-      const nombres = {
-        frutas: "Frutas 🍎", verduras: "Verduras 🥦", abarrotes: "Abarrotes 🍚",
-        chiles: "Chiles Secos 🌶️", cremeria: "Cremería 🧀", dulces: "Dulces 🍬"
-      };
 
-      titulo.textContent = nombres[nombre];
+      titulo.textContent = nombresCategorias[nombre];
       titulo.style.display = 'block';
 
       contenedor.innerHTML = '<div class="grid">' +
-        catalogo[nombre].map(p =>
-          `<div class="card"><div class="emoji">${p.emoji}</div><h3>${p.nombre}</h3><p>${p.precio}</p></div>`
-        ).join('') + '</div>';
+        catalogo[nombre].map(p => crearTarjeta(nombre, p)).join('') + '</div>';
 
       titulo.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
+
+    function crearTarjeta(categoria, p) {
+      const id = idProducto(categoria, p.nombre);
+      const enKilos = esKilogramo(p);
+      const textoTipo = enKilos ? '⚖️ Se vende por kilo' : '📦 Por pieza';
+      const nombreJS = p.nombre.replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+      return `
+        <div class="card">
+          <div>
+            <div class="emoji">${p.emoji}</div>
+            <h3>${p.nombre}</h3>
+            <p class="tipo" style="margin-top:8px;">${textoTipo}</p>
+          </div>
+          <div>
+            <button class="agregar" onclick="mostrarCantidad('${categoria}', '${nombreJS}')">➕ Agregar</button>
+            <div class="cantidad" id="cant-${id}">
+              <button class="btn-cant" onclick="cambiarCantidad('${categoria}', '${nombreJS}', -1)">−</button>
+              <input type="number" id="input-${id}"
+                     value="${enKilos ? '0.5' : '1'}" min="${enKilos ? '0.5' : '1'}"
+                     step="${enKilos ? '0.5' : '1'}">
+              <span class="unidad">${enKilos ? 'kg' : 'pza'}</span>
+              <button class="btn-cant" onclick="cambiarCantidad('${categoria}', '${nombreJS}', 1)">＋</button>
+              <button class="agregar" style="margin-top:0;" onclick="agregarACesta('${categoria}', '${nombreJS}')">✅</button>
+            </div>
+          </div>
+        </div>`;
+    }
+
+    function mostrarCantidad(categoria, nombre) {
+      const producto = catalogo[categoria].find(p => p.nombre === nombre);
+      if (!producto) return;
+      const id = idProducto(categoria, nombre);
+      document.getElementById('input-' + id).value = esKilogramo(producto) ? '0.5' : '1';
+      document.getElementById('cant-' + id).classList.add('visible');
+    }
+
+    function cambiarCantidad(categoria, nombre, delta) {
+      const producto = catalogo[categoria].find(p => p.nombre === nombre);
+      if (!producto) return;
+      const input = document.getElementById('input-' + idProducto(categoria, nombre));
+      const enKilos = esKilogramo(producto);
+      const paso = enKilos ? 0.5 : 1;
+      const min = paso;
+      let valor = parseFloat(input.value);
+      if (isNaN(valor) || valor < min) valor = min;
+      valor = Math.max(min, valor + delta * paso);
+      input.value = enKilos ? valor.toFixed(1) : Math.round(valor);
+    }
+
+    function agregarACesta(categoria, nombre) {
+      const producto = catalogo[categoria].find(p => p.nombre === nombre);
+      if (!producto) return;
+      const input = document.getElementById('input-' + idProducto(categoria, nombre));
+      const cantidad = parseFloat(input.value);
+
+      if (isNaN(cantidad) || cantidad <= 0) {
+        alert('Escribe una cantidad válida, por favor 🙏');
+        return;
+      }
+
+      const clave = nombre + '|' + producto.unidad;
+      if (cesta[clave]) {
+        cesta[clave].cantidad += cantidad;
+      } else {
+        cesta[clave] = {
+          nombre: producto.nombre,
+          emoji: producto.emoji,
+          unidad: producto.unidad,
+          cantidad: cantidad
+        };
+      }
+
+      document.getElementById('cant-' + idProducto(categoria, nombre)).classList.remove('visible');
+      refrescarCesta();
+    }
+
+    function quitarDeCesta(clave) {
+      delete cesta[clave];
+      refrescarCesta();
+    }
+
+
+    function textoCantidad(item) {
+      return item.unidad === 'kg' ? item.cantidad.toFixed(1) + ' kg' : item.cantidad + ' pza(s)';
+    }
+
+    function refrescarCesta() {
+      const contenedor = document.getElementById('items-cesta');
+      const items = Object.entries(cesta);
+
+      document.getElementById('badge-cesta').textContent = items.length;
+
+      if (items.length === 0) {
+        contenedor.innerHTML = '<p class="vacio">Tu cesta está vacía 🛒<br>¡Agrega algo rico!</p>';
+        return;
+      }
+
+      contenedor.innerHTML = items.map(([clave, item]) => {
+        return `
+          <div class="item-cesta">
+            <span style="font-size:1.8em;">${item.emoji}</span>
+            <div class="info">
+              <div class="nombre">${item.nombre}</div>
+              <div class="detalle">${textoCantidad(item)}</div>
+            </div>
+            <button class="quitar" onclick="quitarDeCesta(this.getAttribute('data-clave'))" data-clave="${clave.replace(/"/g, '&quot;')}">✖</button>
+          </div>`;
+      }).join('');
+
+    }
+
+    function abrirCesta() {
+      document.getElementById('panel-cesta').classList.add('abierto');
+    }
+
+    function cerrarCesta() {
+      document.getElementById('panel-cesta').classList.remove('abierto');
+    }
+
+    function enviarPedido() {
+      const items = Object.values(cesta);
+      if (items.length === 0) {
+        alert('Tu cesta está vacía. ¡Agrega productos primero! 🛒');
+        return;
+      }
+
+      const confirmar = confirm('¿Deseas mandar tu pedido? 🛒\n\nSe abrirá WhatsApp para enviarlo directamente a El Joni.');
+      if (!confirmar) return;
+
+      let mensaje = "🛒 *Pedido - El Joni Recaudería*\n\n";
+      items.forEach(item => {
+        mensaje += `${item.emoji} ${item.nombre} — ${textoCantidad(item)}\n`;
+      });
+      mensaje += `\n¡Gracias por su preferencia! 🙏`;
+
+      window.open('https://wa.me/527121931468?text=' + encodeURIComponent(mensaje), '_blank');
+    }
+
+    // Inicializar la cesta
+    refrescarCesta();
   </script>
 
 </body>
