@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Corazón Animado con Mano</title>
+  <style>
+    body {
+      margin: 0;
+      background: radial-gradient(circle at 50% 40%, #1a0a1f, #050008 70%);
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    canvas {
+      display: block;
+    }
+
+    /* Vista previa de la cámara (esquina) */
+    #video {
+      position: fixed;
+      top: 15px;
+      left: 15px;
+      width: 240px;
+      height: 180px;
+      border-radius: 12px;
+      border: 2px solid #ff2d78;
+      box-shadow: 0 0 20px #ff2d78;
+      transform: scaleX(-1);
+      /* espejo, como selfie */
+    }
+
+    h1 {
+      position: fixed;
+      bottom: 30px;
+      width: 100%;
+      text-align: center;
+      color: #ff5b8f;
+      letter-spacing: 4px;
+      text-shadow: 0 0 15px #ff2d78;
+      animation: glow 2s ease-in-out infinite;
+      opacity: 0;
+      transition: opacity 2s;
+      pointer-events: none;
+    }
+
+    @keyframes glow {
+
+      0%,
+      100% {
+        text-shadow: 0 0 10px #ff2d78;
+      }
+
+      50% {
+        text-shadow: 0 0 30px #ff2d78, 0 0 60px #ff2d78;
+      }
+    }
+
+    #estado {
+      position: fixed;
+      top: 200px;
+      left: 15px;
+      width: 240px;
+      text-align: center;
+      color: #ff5b8f;
+      font-size: 13px;
+      text-shadow: 0 0 10px #ff2d78;
+    }
+  </style>
+</head>
+
+<body>
+  <video id="video" autoplay playsinline muted></video>
+  <canvas id="lienzo"></canvas>
+  <h1 id="titulo">❤ Te quiero ❤</h1>
+  <div id="estado">Cargando cámara...</div>
+
+  <!-- MediaPipe Hands desde CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
+
+  <script>
+    const canvas = document.getElementById('lienzo');
+    const ctx = canvas.getContext('2d');
+    const titulo = document.getElementById('titulo');
+    const estado = document.getElementById('estado');
+    const video = document.getElementById('video');
+
+    let W, H;
+    function redimensionar() {
+      W = canvas.width = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', redimensionar);
+    redimensionar();
+
+    // Ecuación paramétrica del corazón
+    function puntoCorazon(t) {
+      const x = 16 * Math.pow(Math.sin(t), 3);
+      const y = -(13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t));
+      return { x, y };
+    }
+
+    // ---------- Partículas ----------
+    const particulas = [];
+    const NUM = 700;
+
+    for (let i = 0; i < NUM; i++) {
+      const t = (i / NUM) * Math.PI * 2;
+      particulas.push({
+        t: t,
+        angulo: Math.random() * Math.PI * 2,
+        radio: Math.random() * 300 + 80,
+        tamano: Math.random() * 2.5 + 1,
+        delay: (i / NUM) * 0.5,
+        progreso: 0,
+        tono: 330 + Math.random() * 40
+      });
+    }
+
+    let tiempo = 0;
+    let formado = false;
+
+    // ---------- Control con la mano ----------
+    let manoX = 0.5, manoY = 0.5;       // posición de la mano (0..1)
+    let centroX = window.innerWidth / 2;
+    let centroY = window.innerHeight / 2 - 20;
+    let dispersion = 0;                  // 0 = junto, 1 = disperso (puño)
+
+    const manos = new Hands({
+      locateFile: (f) => `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${f}`
+    });
+    manos.setOptions({
+      maxNumHands: 1,
+      modelComplexity: 0,          // modelo ligero = más rápido
+      minDetectionConfidence: 0.6,
+      minTrackingConfidence: 0.6
+    });
+
+    manos.onResults((res) => {
+      if (res.multiHandLandmarks && res.multiHandLandmarks.length > 0) {
+        const lm = res.multiHandLandmarks[0];
+        const punta = lm[8];   // punta del índice
+        const pulgar = lm[4];  // punta del pulgar
+        const dx = punta.x - pulgar.x;
+        const dy = punta.y - pulgar.y;
+        const distancia = Math.sqrt(dx * dx + dy * dy);
+
+        manoX = punta.x;
+        manoY = punta.y;
+
+        // pinza cerrada => dispersar el corazón
+        const objetivoDisp = distancia < 0.06 ? 1 : 0;
+        dispersion += (objetivoDisp - dispersion) * 0.15;
+        estado.textContent = dispersion > 0.5 ? '✊ Pinza cerrada — ¡disperso!' : '👋 Mano detectada — muévela';
+      } else {
+        estado.textContent = '👀 Muestra tu mano a la cámara';
+        manoX += (0.5 - manoX) * 0.02;
+        manoY += (0.5 - manoY) * 0.02;
+        dispersion *= 0.98;
+      }
+    });
+
+    // Cámara
+    const cam = new Camera(video, {
+      onFrame: async () => { await manos.send({ image: video }); },
+      width: 640,
+      height: 480
+    });
+    cam.start().then(() => estado.textContent = '👀 Muestra tu mano a la cámara')
+      .catch(() => estado.textContent = '⚠️ No se pudo abrir la cámara');
+
+    // ---------- Animación ----------
+    function animar() {
+      ctx.fillStyle = 'rgba(5, 0, 8, 0.15)';
+      ctx.fillRect(0, 0, W, H);
+      tiempo += 1 / 60;
+
+      // El centro sigue la mano (espejado horizontalmente)
+      const objetivoX = (1 - manoX) * W;
+      const objetivoY = manoY * H;
+      centroX += (objetivoX - centroX) * 0.12;
+      centroY += (objetivoY - centroY) * 0.12;
+
+      const escala = Math.min(W, H) / 42;
+      const latido = 1 + Math.sin(tiempo * 4) * 0.05;
+
+      let completados = 0;
+
+      for (const pt of particulas) {
+        const objetivo = Math.max(0, Math.min(1, (tiempo - pt.delay) / 2.5));
+        pt.progreso += (objetivo - pt.progreso) * 0.08;
+
+        const p = puntoCorazon(pt.t);
+        let destX = centroX + p.x * escala * latido;
+        let destY = centroY + p.y * escala * latido;
+
+        // Dispersión cuando cierras la pinza
+        if (dispersion > 0.01) {
+          const ang = pt.t + tiempo * 0.5;
+          const fuerza = dispersion * (150 + Math.sin(pt.t * 7 + tiempo * 2) * 80);
+          destX += Math.cos(ang) * fuerza;
+          destY += Math.sin(ang) * fuerza;
+        }
+
+        const iniX = centroX + Math.cos(pt.angulo) * pt.radio;
+        const iniY = centroY + Math.sin(pt.angulo) * pt.radio;
+
+        const e = pt.progreso;
+        const ease = 1 - Math.pow(1 - e, 3);
+        const x = iniX + (destX - iniX) * ease;
+        const y = iniY + (destY - iniY) * ease;
+
+        if (e >= 0.99) completados++;
+
+        const alpha = 0.4 + ease * 0.6;
+        ctx.beginPath();
+        ctx.arc(x, y, pt.tamano * (0.5 + ease), 0, Math.PI * 2);
+        ctx.fillStyle = `hsla(${pt.tono}, 90%, ${55 + Math.sin(tiempo * 3 + pt.t) * 10}%, ${alpha})`;
+        ctx.shadowColor = '#ff2d78';
+        ctx.shadowBlur = 8 * ease;
+        ctx.fill();
+        ctx.shadowBlur = 0;
+      }
+
+      if (completados >= NUM - 5 && !formado) {
+        formado = true;
+        titulo.style.opacity = 1;
+      }
+
+      requestAnimationFrame(animar);
+    }
+
+    animar();
+  </script>
+</body>
+
+</html>

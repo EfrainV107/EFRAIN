@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>"El Joni" - Recaudería</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Arial, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background-color: #fdfbf4;
+      background-image:
+        radial-gradient(circle 55px at 20px 20px, rgba(46, 139, 87, 0.12) 0 18px, transparent 19px),
+        radial-gradient(circle 55px at 20px 80px, rgba(255, 140, 0, 0.12) 0 14px, transparent 15px),
+        radial-gradient(circle 55px at 120px 50px, rgba(220, 20, 60, 0.10) 0 16px, transparent 17px);
+      background-size: 200px 110px;
+    }
+
+    header {
+      text-align: center;
+      padding: 40px 20px 25px;
+      color: #2e8b57;
+    }
+
+    header h1 {
+      font-size: 3em;
+      letter-spacing: 3px;
+      text-shadow: 2px 2px 0 #d9d4c0;
+    }
+
+    header h1 span {
+      color: #e07b39;
+    }
+
+    header p {
+      color: #6b7a5a;
+      margin-top: 8px;
+      font-size: 1.1em;
+    }
+
+    nav {
+      text-align: center;
+      padding: 10px 20px 40px;
+    }
+
+    nav button {
+      display: inline-block;
+      margin: 8px;
+      padding: 14px 28px;
+      font-size: 1.05em;
+      font-weight: bold;
+      color: #2e8b57;
+      background: #ffffff;
+      border: 2px solid #2e8b57;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    nav button:hover {
+      background: #2e8b57;
+      color: #fff;
+      transform: translateY(-3px);
+    }
+
+    nav button.activo {
+      background: #e07b39;
+      border-color: #e07b39;
+      color: #fff;
+    }
+
+    #productos {
+      max-width: 950px;
+      margin: 0 auto;
+      padding: 0 20px 60px;
+    }
+
+    #titulo-categoria {
+      text-align: center;
+      color: #2e8b57;
+      margin: 20px 0 25px;
+      font-size: 1.8em;
+      display: none;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.92);
+      border: 2px solid #e5e0cf;
+      border-radius: 14px;
+      padding: 22px 15px;
+      text-align: center;
+      transition: all 0.25s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: #2e8b57;
+      box-shadow: 0 8px 18px rgba(46, 139, 87, 0.15);
+    }
+
+    .card .emoji {
+      font-size: 2.6em;
+    }
+
+    .card h3 {
+      color: #3d4a35;
+      margin: 10px 0 5px;
+    }
+
+    .card p {
+      color: #e07b39;
+      font-weight: bold;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: #2e8b57;
+      color: #fff;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>"EL J<span>🥕</span>NI"</h1>
+    <p>Recaudería · Frutas, verduras y más — ¡¡¡Frescura de todos los días!!! 🍎🥬</p>
+  </header>
+
+  <nav>
+    <button onclick="verCategoria('frutas', this)">🍎 Frutas</button>
+    <button onclick="verCategoria('verduras', this)">🥦 Verduras</button>
+    <button onclick="verCategoria('abarrotes', this)">🍚 Abarrotes</button>
+    <button onclick="verCategoria('chiles', this)">🌶️ Chiles Secos</button>
+    <button onclick="verCategoria('cremeria', this)">🧀 Cremería</button>
+    <button onclick="verCategoria('dulces', this)">🍬 Dulces</button>
+  </nav>
+
+  <h2 id="titulo-categoria"></h2>
+  <section id="productos"></section>
+
+  <footer>
+    <p>"EL JONI" · Recaudería © 2026 — ¡Gracias por su preferencia-DIOS TE BENDIGA!</p>
+  </footer>
+
+  <script>
+    const catalogo = {
+      frutas: [
+        { nombre: "Manzana roja", precio: "$38.00/kg", emoji: "🍎" },
+        { nombre: "Plátano", precio: "$22.00/kg", emoji: "🍌" },
+        { nombre: "Naranja", precio: "$25.00/kg", emoji: "🍊" },
+        { nombre: "Sandía", precio: "$18.00/kg", emoji: "🍉" },
+        { nombre: "Limón", precio: "$40.00/kg", emoji: "🍋" },
+        { nombre: "Uva", precio: "$55.00/kg", emoji: "🍇" },
+        { nombre: "Fresa", precio: "$45.00/caja", emoji: "🍓" },
+        { nombre: "Mango", precio: "$35.00/kg", emoji: "🥭" },
+        { nombre: "Pera", precio: "$42.00/kg", emoji: "🍐" },
+        { nombre: "Piña", precio: "$30.00/pieza", emoji: "🍍" }
+      ],
+      verduras: [
+        { nombre: "Tomate verde", precio: "$28.00/kg", emoji: "🍅" },
+        { nombre: "Cebolla", precio: "$24.00/kg", emoji: "🧅" },
+        { nombre: "Lechuga", precio: "$15.00/pieza", emoji: "🥬" },
+        { nombre: "Zanahoria", precio: "$18.00/kg", emoji: "🥕" },
+        { nombre: "Papa", precio: "$30.00/kg", emoji: "🥔" },
+        { nombre: "Brocoli", precio: "$35.00/kg", emoji: "🥦" },
+        { nombre: "Chile serrano", precio: "$45.00/kg", emoji: "🌶️" },
+        { nombre: "Aguacate", precio: "$70.00/kg", emoji: "🥑" },
+        { nombre: "Pepino", precio: "$20.00/kg", emoji: "🥒" },
+        { nombre: "Elote", precio: "$8.00/pieza", emoji: "🌽" }
+      ],
+      abarrotes: [
+        { nombre: "Arroz", precio: "$32.00/kg", emoji: "🍚" },
+        { nombre: "Frijol", precio: "$38.00/kg", emoji: "🫘" },
+        { nombre: "Aceite", precio: "$48.00/L", emoji: "🫗" },
+        { nombre: "Azúcar", precio: "$26.00/kg", emoji: "🧂" },
+        { nombre: "Sal", precio: "$12.00/kg", emoji: "🧂" },
+        { nombre: "Harina de maíz", precio: "$22.00/kg", emoji: "🌾" },
+        { nombre: "Atún en lata", precio: "$18.00/pza", emoji: "🐟" },
+        { nombre: "Pasta para sopa", precio: "$14.00/bolsa", emoji: "🍜" },
+        { nombre: "Café", precio: "$65.00/pza", emoji: "☕" },
+        { nombre: "Lenteja", precio: "$34.00/kg", emoji: "🫘" }
+      ],
+      chiles: [
+        { nombre: "Chile ancho", precio: "$90.00/kg", emoji: "🌶️" },
+        { nombre: "Chile guajillo", precio: "$85.00/kg", emoji: "🌶️" },
+        { nombre: "Chile pasilla", precio: "$110.00/kg", emoji: "🌶️" },
+        { nombre: "Chile de árbol", precio: "$120.00/kg", emoji: "🌶️" },
+        { nombre: "Chile piquín", precio: "$180.00/kg", emoji: "🌶️" },
+        { nombre: "Chile chipotle seco", precio: "$140.00/kg", emoji: "🌶️" },
+        { nombre: "Chile mulato", precio: "$95.00/kg", emoji: "🌶️" },
+        { nombre: "Chile cascabel", precio: "$105.00/kg", emoji: "🌶️" }
+      ],
+      cremeria: [
+        { nombre: "Queso Oaxaca", precio: "$120.00/kg", emoji: "🧀" },
+        { nombre: "Queso panela", precio: "$95.00/kg", emoji: "🧀" },
+        { nombre: "Queso fresco", precio: "$105.00/kg", emoji: "🧀" },
+        { nombre: "Crema ácida", precio: "$45.00/500ml", emoji: "🥛" },
+        { nombre: "Queso manchego", precio: "$130.00/kg", emoji: "🧀" },
+        { nombre: "Requesón", precio: "$80.00/kg", emoji: "🧀" },
+        { nombre: "Queso cotija", precio: "$150.00/kg", emoji: "🧀" },
+        { nombre: "Mantequilla", precio: "$60.00/pza", emoji: "🧈" }
+      ],
+      dulces: [
+        { nombre: "Gomitas", precio: "$15.00/100g", emoji: "🍬" },
+        { nombre: "Paletas", precio: "$8.00/pza", emoji: "🍭" },
+        { nombre: "Chocolate", precio: "$25.00/pza", emoji: "🍫" },
+        { nombre: "Cacahuate garapiñado", precio: "$30.00/100g", emoji: "🥜" },
+        { nombre: "Chicles", precio: "$12.00/bolsa", emoji: "🫧" },
+        { nombre: "Mazapán", precio: "$10.00/pza", emoji: "🥮" },
+        { nombre: "Tamarindo", precio: "$20.00/100g", emoji: "🍯" },
+        { nombre: "Glorias", precio: "$12.00/pza", emoji: "🍬" }
+      ]
+    };
+
+    function verCategoria(nombre, boton) {
+      document.querySelectorAll('nav button').forEach(b => b.classList.remove('activo'));
+      boton.classList.add('activo');
+
+      const titulo = document.getElementById('titulo-categoria');
+      const contenedor = document.getElementById('productos');
+      const nombres = {
+        frutas: "Frutas 🍎", verduras: "Verduras 🥦", abarrotes: "Abarrotes 🍚",
+        chiles: "Chiles Secos 🌶️", cremeria: "Cremería 🧀", dulces: "Dulces 🍬"
+      };
+
+      titulo.textContent = nombres[nombre];
+      titulo.style.display = 'block';
+
+      contenedor.innerHTML = '<div class="grid">' +
+        catalogo[nombre].map(p =>
+          `<div class="card"><div class="emoji">${p.emoji}</div><h3>${p.nombre}</h3><p>${p.precio}</p></div>`
+        ).join('') + '</div>';
+
+      titulo.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  </script>
+
+</body>
+
+</html>
